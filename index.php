@@ -32,7 +32,8 @@ include 'getip.php';
 			<h4><b>Map of </b> - <?php echo $out['city']; ?>, <?php echo $out['country_name']; ?></h4>
    
     <?php
- $url = "https://maps.googleapis.com/maps/api/staticmap?center=".$out['latitude'].",+".$out['longitude']."&zoom=13&scale=1&size=600x300&maptype=roadmap&key=AIzaSyDpCawh4FHK_irJMKjt7G3_smRrgyzcoIU&format=png&visual_refresh=true";
+	$key = "YOUR_GOOGLE_STATIC_MAP_API_KEY";
+ $url = "https://maps.googleapis.com/maps/api/staticmap?center=".$out['latitude'].",+".$out['longitude']."&zoom=13&scale=1&size=600x300&maptype=roadmap&key=".$key."&format=png&visual_refresh=true";
     
     echo "<img width='600' class='w3-image' src='$url' title='Google Map of ".$out['city'].", ".$out['country_name']."' alt='Google Map of ".$out['city'].", ".$out['country_name']."'>";
     ?>
