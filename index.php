@@ -1,46 +1,69 @@
 <?php
-include 'getip.php';
-	$timezone = "https://ipapi.co/".getip()."/json"; // change $output['ip'] to getip() for online server.
-	$out = json_decode(file_get_contents($timezone),true);
+function getip(){
+    if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
+    {
+      $ip=$_SERVER['HTTP_CLIENT_IP'];
+    }
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
+    {
+      $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+    else
+    {
+      $ip=$_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
+
+function gettime(){
+	$data = json_decode(get_details(),true);
+	date_default_timezone_set($data['timezone']);
+	$time = time();
+	return date("d-M-Y l g:i A", $time);
+}
+	
+	function get_details(){
+	 $geoip = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.getip().''));
+	 $data['city'] = $geoip['geoplugin_city'];
+	 $data['region'] = $geoip['geoplugin_region'];
+	 $data['region_code'] = $geoip['geoplugin_regionCode'];
+	 $data['region_name'] = $geoip['geoplugin_regionName'];
+	 $data['country_code'] = $geoip['geoplugin_countryCode'];
+	 $data['country_name'] = $geoip['geoplugin_countryName'];
+	 $data['continent_code'] = $geoip['geoplugin_continentCode'];
+	 $data['continent_name'] = $geoip['geoplugin_continentName'];
+	 $data['latitude'] = $geoip['geoplugin_latitude'];
+	 $data['longitude'] = $geoip['geoplugin_longitude'];
+	 $data['timezone'] = $geoip['geoplugin_timezone'];
+	 $data['currency_code'] = $geoip['geoplugin_currencyCode'];
+	 $data['currency_symbol'] = $geoip['geoplugin_currencySymbol'];
+	 $data['currency_symbol_UTF8'] = $geoip['geoplugin_currencySymbol_UTF8'];
+	 $data['currency_symbol'] = $geoip['geoplugin_currencySymbol'];
+	 $data = json_encode($data);
+		
+	 return $data;
+	} 
+	
+	
 
 ?>
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Get user's Details in PHP - HackerRahul</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  </head>
-  <body>
-    <div class="w3-center w3-container w3-blue">
-      <h1>Get user's Details in PHP</h1>
-    </div><br>
-
-		<div class="w3-margin">
-    <div class="w3-content">
-
-      <h4><b>IP Address</b> - <?php echo getip(); ?></h4>
-      <h4><b>City</b> - <?php echo $out['city']; ?></h4>
-      <h4><b>Region</b> - <?php echo $out['region']; ?>, <?php echo $out['region_code']; ?></h4>
-      <h4><b>Country</b> - <?php echo $out['country_name']; ?>, <?php echo $out['country']; ?></h4>
-      <h4><b>Latitude</b> - <?php echo $out['latitude']; ?></h4>
-      <h4><b>Longitude</b> - <?php echo $out['longitude']; ?></h4>
-      <h4><b>Timezone</b> - <?php echo $out['timezone']; ?></h4>
-      <h4><b>Asn</b> - <?php echo $out['asn']; ?></h4>
-      <h4><b>Org</b> - <?php echo $out['org']; ?></h4>
-			<h4><b>Map of </b> - <?php echo $out['city']; ?>, <?php echo $out['country_name']; ?></h4>
-   
+     <head>
+  <meta charset="UTF-8">
+  <title>HackerRahul | Get User Details!</title>
+  <meta name="description" content="HackerRahul Test Website">
+  <meta name="keywords" content="HTML,CSS,XML,JavaScript">
+  <meta name="author" content="HackerRahul.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head> 
+<body>
     <?php
-	$key = "YOUR_GOOGLE_STATIC_MAP_API_KEY";
- $url = "https://maps.googleapis.com/maps/api/staticmap?center=".$out['latitude'].",+".$out['longitude']."&zoom=13&scale=1&size=600x300&maptype=roadmap&key=".$key."&format=png&visual_refresh=true";
-    
-    echo "<img width='600' class='w3-image' src='$url' title='Google Map of ".$out['city'].", ".$out['country_name']."' alt='Google Map of ".$out['city'].", ".$out['country_name']."'>";
+    	$data = json_decode(get_details());
+    	echo "<pre>";
+    	print_r($data);
+    	
+    	echo gettime();
+        // echo time according to timezone.
     ?>
-    
-
-		  </div>
-		</div>
-		
-  </body>
+</body>
 </html>
