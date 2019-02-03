@@ -12,7 +12,9 @@ function getip(){
     {
       $ip=$_SERVER['REMOTE_ADDR'];
     }
-    return $ip;
+    $ip = explode(",",$ip);
+    $ip_address = $ip[0];
+    return $ip_address;
 }
 
 function gettime(){
