@@ -26,6 +26,7 @@ function gettime(){
 	
 	function get_details(){
 	 $geoip = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.getip().''));
+	 $data['ip_address'] = getip(); 
 	 $data['city'] = $geoip['geoplugin_city'];
 	 $data['region'] = $geoip['geoplugin_region'];
 	 $data['region_code'] = $geoip['geoplugin_regionCode'];
