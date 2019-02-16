@@ -12,9 +12,15 @@ function getip(){
     {
       $ip=$_SERVER['REMOTE_ADDR'];
     }
+    
+    if(is_array($ip)){
     $ip = explode(",",$ip);
     $ip_address = $ip[0];
     return $ip_address;
+    }else{
+        return $ip;
+    }
+    
 }
 
 function gettime(){
@@ -65,7 +71,7 @@ function gettime(){
     	echo "<pre>";
     	print_r($data);
     	
-    	echo gettime();
+    	echo "<b>Time and Date according to Timezone: </b>".gettime();
         // echo time according to timezone.
     ?>
 </body>
