@@ -69,6 +69,7 @@ function gettime(){
     <?php
     	$data = json_decode(get_details());
     	echo "<pre>";
+	echo "<hr>";
     	print_r($data);
     	
     	echo "<b>Time and Date according to Timezone: </b>".gettime();
