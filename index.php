@@ -66,13 +66,12 @@ function gettime(){
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head> 
 <body>
-	<h1>Heroku Example</h1>
     <?php
     	$data = json_decode(get_details());
     	echo "<pre>";
     	print_r($data);
     	
-    	echo "<b>Time and Date according to Timezone: </b>".gettime();
+    	echo "<b>User Time and Date according to Timezone: </b>".gettime();
         // echo time according to timezone.
     ?>
 </body>
